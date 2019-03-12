@@ -14,7 +14,7 @@ def create_app(config_name):
 
     ### ROUTES ###
     @app.route("/users", methods=['GET', 'POST'])
-    def add_user():
+    def users():
         if request.method == 'GET':
             users = [user.to_dict() for user in db.session.query(User)]
             return jsonify(users), 200
@@ -31,7 +31,7 @@ def create_app(config_name):
             return jsonify(request.json), 201
 
     @app.route("/users/<int:id>", methods=['GET'])
-    def show_user(id):
+    def user(id):
         user = db.session.query(User).get(id)
         if user:
             return jsonify(user.to_dict()), 200
