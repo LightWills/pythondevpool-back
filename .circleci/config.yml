@@ -2,15 +2,14 @@ version: 2
 jobs:
   build:
     docker:
-      - image: debian:stretch
-
+      - image: circleci/python:3.7
     steps:
       - checkout
-
       - run:
-          name: Greeting
-          command: echo Hello, world.
-
+          name: Setup environnement
+          command: |
+            pip install --no-cache-dir --user -r requirements.txt
       - run:
-          name: Print the Current Time
-          command: date
+          name: Run Tests
+          command: | 
+            python3 -m unittest
