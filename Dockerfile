@@ -14,4 +14,4 @@ RUN pip install --trusted-host pypi.python.org -r requirements.txt
 ENV APP_SETTINGS development
 
 # Run main script when the container launches
-CMD ["python3", "run.py"]
+CMD ["python3", "run_app.py"]
