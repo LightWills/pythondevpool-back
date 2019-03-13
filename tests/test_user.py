@@ -9,14 +9,19 @@ class UserTestCase(unittest.TestCase):
     def setUp(self):
         """Define test variables and initialize app."""
         self.client = app.test_client
-        self.user = {'name': 'test', 'lastname': 'test', 'login': 'test', 'desc': 'test'}
+        self.user = {'name': 'my_name', 'lastname': 'my_lastname', 'login': 'my_login', 'desc': 'my_desc'}
+        with app.app_context():
+            db.create_all()
 
     def test_user_creation(self):
         """Test API can create a User (POST request)"""
         res = self.client().post('/users', json=self.user)
+        data = str(res.data)
         self.assertEqual(res.status_code, 201)
-        
-        self.assertIn('test', str(res.data))
+        self.assertIn('"name": "my_name"', data)
+        self.assertIn('"lastname": "my_lastname"', data)
+        self.assertIn('"login": "my_login"', data)
+        self.assertIn('"desc": "my_desc"', data)
         
     def tearDown(self):
         """teardown all initialized variables."""
