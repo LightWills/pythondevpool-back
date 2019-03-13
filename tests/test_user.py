@@ -1,6 +1,6 @@
 import unittest
 import json
-from ..app import create_app, db
+from app import create_app, db
 
 
 class UserTestCase(unittest.TestCase):
@@ -31,3 +31,5 @@ class UserTestCase(unittest.TestCase):
             db.session.remove()
             db.drop_all()
 
+if __name__ == "__main__":
+    unittest.main()
