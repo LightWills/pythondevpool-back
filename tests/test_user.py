@@ -1,6 +1,6 @@
 import unittest
 import json
-from app import create_app, db
+from app import app, db
 
 
 class UserTestCase(unittest.TestCase):
@@ -8,14 +8,8 @@ class UserTestCase(unittest.TestCase):
 
     def setUp(self):
         """Define test variables and initialize app."""
-        self.app = create_app(config_name="testing")
-        self.client = self.app.test_client
+        self.client = app.test_client
         self.user = {'name': 'test', 'lastname': 'test', 'login': 'test', 'desc': 'test'}
-
-        # binds the app to the current context
-        with self.app.app_context():
-            # create all tables
-            db.create_all()
 
     def test_user_creation(self):
         """Test API can create a User (POST request)"""
@@ -26,10 +20,11 @@ class UserTestCase(unittest.TestCase):
         
     def tearDown(self):
         """teardown all initialized variables."""
-        with self.app.app_context():
+        with app.app_context():
             # drop all tables
             db.session.remove()
             db.drop_all()
+
 
 if __name__ == "__main__":
     unittest.main()

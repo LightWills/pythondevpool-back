@@ -3,6 +3,8 @@ jobs:
   build:
     docker:
       - image: circleci/python:3.7
+        environment:
+          APP_SETTINGS: testing
     steps:
       - checkout
       - run:
