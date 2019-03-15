@@ -11,22 +11,23 @@ def users():
 
     if request.method == 'POST':
         try:
-            user = User(
-                name=request.json['name'],
-                lastname=request.json['lastname'],
-                login=request.json['login'],
-                desc=request.json['desc']
-            )
+            user = User.from_json(request.json)
         except:
             return abort(400)          
         db.session.add(user)
         db.session.commit()
-        return jsonify(request.json), 201
+        return jsonify(user.to_dict()), 201
 
-@app.route("/users/<int:id>", methods=['GET'])
+@app.route("/users/<int:id>", methods=['GET', 'DELETE'])
 def user(id):
     user = db.session.query(User).get(id)
-    if user:
+    if not user:
+        return abort(404)
+    
+    if request.method == 'GET':
         return jsonify(user.to_dict()), 200
 
-    return abort(404)
+    if request.method == 'DELETE':
+        db.session.delete(user)
+        db.session.commit()
+        return "OK", 201

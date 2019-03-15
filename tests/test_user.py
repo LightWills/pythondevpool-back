@@ -24,7 +24,7 @@ class UserTestCase(unittest.TestCase):
         self.assertIn('"desc": "my_desc"', data)
 
     def test_user_get_by_ID(self):
-        """Test API can delete a User (POST request)"""
+        """Test API can get a User by ID (POST request)"""
         res = self.client().post('/users', json=self.user)
         self.assertEqual(res.status_code, 201)
         res = self.client().get('/users/1', json=self.user)
@@ -34,6 +34,17 @@ class UserTestCase(unittest.TestCase):
         self.assertIn('"lastname": "my_lastname"', data)
         self.assertIn('"login": "my_login"', data)
         self.assertIn('"desc": "my_desc"', data)
+
+    def test_user_deletion(self):
+        """Test API can delete a User by ID (GET request)"""
+        res = self.client().post('/users', json=self.user)
+        self.assertEqual(res.status_code, 201)
+        res = self.client().delete('/users/1', json=self.user)
+        data = str(res.data)
+        self.assertEqual(res.status_code, 200)
+        self.assertIn('OK', data)
+        res = self.client().get('/users/1', json=self.user)
+        self.assertEqual(res.status_code, 404)
         
     def tearDown(self):
         """teardown all initialized variables."""
