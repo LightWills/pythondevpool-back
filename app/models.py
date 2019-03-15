@@ -9,9 +9,9 @@ class User(db.Model):
     login = db.Column(db.String(20))
     desc = db.Column(db.Text())
 
-    def __repr__(self):
-        return ('User(id={id}, name={name!r}, lastname={lastname!r} login={login!r},'
-            + ' desc={desc!r})').format(**vars(self))
-
     def to_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+    @staticmethod
+    def from_json(json):
+        return User(name=json['name'], lastname=json['lastname'], login=json['login'], desc=json['desc'])
