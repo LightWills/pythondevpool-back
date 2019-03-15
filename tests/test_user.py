@@ -1,4 +1,5 @@
 import unittest
+import json
 from app import app, db
 
 
@@ -17,6 +18,18 @@ class UserTestCase(unittest.TestCase):
         res = self.client().post('/users', json=self.user)
         data = str(res.data)
         self.assertEqual(res.status_code, 201)
+        self.assertIn('"name": "my_name"', data)
+        self.assertIn('"lastname": "my_lastname"', data)
+        self.assertIn('"login": "my_login"', data)
+        self.assertIn('"desc": "my_desc"', data)
+
+    def test_user_get_by_ID(self):
+        """Test API can delete a User (POST request)"""
+        res = self.client().post('/users', json=self.user)
+        self.assertEqual(res.status_code, 201)
+        res = self.client().get('/users/1', json=self.user)
+        data = str(res.data)
+        self.assertEqual(res.status_code, 200)
         self.assertIn('"name": "my_name"', data)
         self.assertIn('"lastname": "my_lastname"', data)
         self.assertIn('"login": "my_login"', data)
