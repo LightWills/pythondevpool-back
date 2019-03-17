@@ -20,6 +20,6 @@ jobs:
       - run:
           name: Build and push Docker image
           command: |
-            sudo docker build -t $DOCKER_LOGIN/python-devpool-back .
-            echo $DOCKER_PASSWORD | sudo docker login -u $DOCKER_LOGIN --password-stdin
-            sudo docker push $DOCKER_LOGIN/python-devpool-back
+            docker build -t $DOCKER_LOGIN/python-devpool-back .
+            echo $DOCKER_PASSWORD | docker login -u $DOCKER_LOGIN --password-stdin
+            docker push $DOCKER_LOGIN/python-devpool-back
