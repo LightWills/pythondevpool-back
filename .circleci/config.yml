@@ -15,3 +15,11 @@ jobs:
           name: Run Tests
           command: | 
             python3 -m unittest
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Build and push Docker image
+          command:
+            docker build -t bspirit/python-devpool-back .
+            echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin
+            docker push bspirit/python-devpool-back
