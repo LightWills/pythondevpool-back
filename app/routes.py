@@ -30,4 +30,4 @@ def user(id):
     if request.method == 'DELETE':
         db.session.delete(user)
         db.session.commit()
-        return "OK", 201
+        return "OK", 200
